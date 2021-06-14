@@ -1,0 +1,22 @@
+{
+  "general": {
+    "readMore": "Läs mer.",
+    "getStarted": "Kom igång"
+  },
+  "meta": {
+    "keywords": "Keyword1, Keyword2, Keyword3",
+    "homeTitle": "Website template",
+    "homeDesc": "Bästa mallen för react hemsidor!",
+    "aboutTitle": "Om oss",
+    "aboutDesc": "Läs mer om den bästa mallen för react hemsidor"
+  },
+  "home": {
+    "title": "Hem titel",
+    "desc": "Hem beskrivning",
+    "longTest": "Men jag måste förklara för dig hur all denna felaktiga idé om att fördöma ett nöje och berömma smärta föddes och jag kommer att ge dig en fullständig redogörelse för systemet och redogöra för den verkliga lärdomarna för den stora sanningsutforskaren, mästebyggaren Ingen avvisar, ogillar eller undviker nöje själv, för det är nöje, men för att de som inte vet hur man bedriver nöje på ett rationellt sätt möter konsekvenser som är extremt smärtsamma. Det finns inte heller någon som älskar eller förföljer eller önskar att få smärta av sig själv, eftersom det är smärta, men ibland inträffar omständigheter där slit och smärta kan skaffa honom ett stort nöje. Att ta ett triviellt exempel, vem av oss gör någonsin en mödosam fysisk träning, förutom att få någon fördel av det? Men vem har någon rätt att hitta fel hos en man som väljer att njuta av ett nöje som inte har några irriterande konsekvenser, eller en som undviker en smärta som inte ger något resulterande nöje? [33] Å andra sidan förnekar vi Nce med rättfärdig förargelse och ogillar människor som är så förrätta och demoraliserade av ögonblickets charm av njutning, så förblindade av begär, att de inte kan förutse den smärta och besvär som kommer att följa, och lika skyll tillhör de som misslyckas i deras plikt genom svaghet i viljan, vilket är detsamma som att säga genom att krympa från slit och smärta. Dessa fall är helt enkla och lätta att skilja. På en fri timme, när vår valmakt är ostängd och när ingenting hindrar vår möjlighet att gör vad vi gillar bäst, varje glädje är att välkomnas och all smärta undviks. Men under vissa omständigheter och på grund av krav på plikt eller skyldigheter från företag kommer det ofta att uppstå att nöjen måste avvisas och irritationer accepteras. därför håller i dessa frågor alltid denna princip om urval: han avvisar nöjen för att säkra andra större nöjen, eller annars uthärdar han smärta för att undvika värre."
+  },
+  "about": {
+    "title": "Om oss titel",
+    "desc": "Om oss beskrivning"
+  }
+}

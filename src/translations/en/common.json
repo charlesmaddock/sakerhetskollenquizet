@@ -1,0 +1,36 @@
+{
+  "general": {
+    "next": "Next",
+    "madeByDU": "A test made in collaboration with Digital Ungdom"
+  },
+  "meta": {
+    "keywords": "Keyword1, Keyword2, Keyword3",
+    "homeTitle": "Website template",
+    "homeDesc": "The best react website template!",
+    "aboutTitle": "About us",
+    "aboutDesc": "About The best react website template"
+  },
+  "welcome": {
+    "welcome": "How secure are you?",
+    "desc": "Take the test and find out",
+    "test": "Take the test"
+  },
+  "steps": {
+    "profile": "You online",
+    "questions": "Questions",
+    "result": "Result"
+  },
+  "profileSelection": {
+    "title": "Create your digital profile",
+    "desc": "Which of these do you do online?",
+    "profiles": {
+      "BANK_PROFILE": "Make bank transactions",
+      "GAMING_PROFILE": "Play computer games",
+      "STREAMING_PROFILE": "Stream films",
+      "SOCIAL_MEDIA_PROFILE": "Be on social medias"
+    }
+  },
+  "questions": {
+    
+  }
+}
