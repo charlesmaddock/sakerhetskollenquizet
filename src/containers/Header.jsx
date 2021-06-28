@@ -16,14 +16,16 @@ import ToggleLanguage from "../components/features/ToggleLanguage";
 import { getWindowSize } from "../util";
 
 const navigationRoutes = [
-  { to: "/", title: "Home" },
-  { to: "/about", title: "About" },
+  //{ to: "/", title: "Home" },
+  //{ to: "/about", title: "About" },
 ];
 
 export default () => {
   return (
     <AlignCenter>
-      <div style={{ width: "100%", margin: "10px 0" }}>
+      <div
+        style={{ width: "100%", margin: "10px 0", background: "rgba(0,0,0,0)" }}
+      >
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
             <StyledNavLink exact to="/">

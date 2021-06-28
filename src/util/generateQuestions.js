@@ -1,6 +1,6 @@
 import { GENERAL_PROFILE, QUESTIONS } from "./constants";
 
-export const generate_questions = (profileState) => {
+export const generateQuestions = (profileState) => {
   var newQuestions = [];
   QUESTIONS.forEach((question) => {
     console.log("iterated questions profile: ", question.forProfile);

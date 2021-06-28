@@ -1,4 +1,4 @@
-export const HEIGHT = 540;
+export const HEIGHT = 440;
 
 // Profiles
 export const BANK_PROFILE = "BANK_PROFILE";

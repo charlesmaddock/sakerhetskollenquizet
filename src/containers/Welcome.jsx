@@ -7,14 +7,14 @@ import { AlignCenter, StyledButton } from "../components/general";
 import { HEIGHT } from "../util/constants";
 
 const Welcome = ({ t }) => (
-  <div style={{ background: "lightblue", height: HEIGHT }}>
+  <div style={{ height: HEIGHT }}>
     <AlignCenter>
       <div
         style={{
           textAlign: "center",
           width: "100%",
           padding: 20,
-          marginTop: HEIGHT / 4,
+          marginTop: HEIGHT / 5,
         }}
       >
         <h1>{t("welcome.welcome")}</h1>

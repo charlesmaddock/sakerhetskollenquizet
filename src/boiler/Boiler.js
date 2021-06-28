@@ -6,15 +6,21 @@ import { Loading } from "../components/general";
 import TestSlides from "../containers/TestSlides";
 import Welcome from "../containers/Welcome";
 // Lazy loading
+const Header = lazy(() => import("../containers/Header"));
+const Footer = lazy(() => import("../containers/Footer"));
 const PageNotFound = lazy(() => import("../containers/PageNotFound.jsx"));
 
 const Boiler = () => (
   <Suspense fallback={<Loading fullScreen />}>
-    <Switch>
-      <Route path="/" exact render={() => <Welcome />} />
-      <Route path="/test" exact render={() => <TestSlides />} />
-      <Route render={(props) => <PageNotFound {...props} />} />
-    </Switch>
+    <div style={{ background: "lightblue" }}>
+      <Header />
+      <Switch>
+        <Route path="/" exact render={() => <Welcome />} />
+        <Route path="/test" exact render={() => <TestSlides />} />
+        <Route render={(props) => <PageNotFound {...props} />} />
+      </Switch>
+      <Footer />
+    </div>
   </Suspense>
 );
 

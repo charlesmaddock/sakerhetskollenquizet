@@ -30,6 +30,10 @@
       "SOCIAL_MEDIA_PROFILE": "Be on social medias"
     }
   },
+  "test": {
+    "nextQuestion": "Next question",
+    "result": "See result"
+  },
   "questions": {
     
   }

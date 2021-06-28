@@ -1,12 +1,12 @@
 import { Button, Checkbox, FormControlLabel, Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import SwipeableViews from "react-swipeable-views";
 
 // Custom components
-import Stepper from "../components/features/Stepper";
 import {
   AlignCenter,
+  Fade,
   StyledButton,
   StyledMarkdown,
 } from "../components/general";
@@ -23,9 +23,11 @@ import {
   GENERAL_PROFILE,
 } from "../util/constants";
 
-import { generate_questions } from "../util/generateQuestions";
+import { generateQuestions } from "../util/generateQuestions";
 import gauge_img from "../assets/gauge.png";
 import pointer_img from "../assets/pointer.png";
+import { getMaxScore } from "../util/getMaxScore";
+import getPretendScore from "../util/getPretendScore";
 
 const SlideWrapper = ({ children }) => {
   return (
@@ -151,7 +153,13 @@ const AnswerOptions = ({ questionData, onSelectAnswer }) => {
   }
 };
 
-const Question = ({ questionData, nextQuestion, handleIncrementScore }) => {
+const Question = ({
+  t,
+  last,
+  questionData,
+  nextQuestion,
+  handleIncrementScore,
+}) => {
   const [questionResult, setQuestionResult] = useState(null);
 
   const onSelectAnswer = (score) => {
@@ -174,29 +182,33 @@ const Question = ({ questionData, nextQuestion, handleIncrementScore }) => {
   return (
     <SlideWrapper>
       <Grid container spacing={2}>
-        <Grid sm={12} md={6} style={{ textAlign: "start" }}>
-          <h3>{questionData.title}</h3>
-          <StyledMarkdown>{questionData.text}</StyledMarkdown>
-          <AnswerOptions
-            questionData={questionData}
-            onSelectAnswer={onSelectAnswer}
-          />
-        </Grid>
-        <Grid sm={12} md={6} style={{ textAlign: "start" }}>
+        <Grid sm={12} style={{ textAlign: "start" }}>
           {questionResult !== null ? (
-            <div>
-              <h2>{questionResult}</h2>
-              <p>{questionData.moreInfo}</p>
-              <p>
-                Read more here:{" "}
-                <StyledLink colored href={questionData.readMoreLink}>
-                  {questionData.readMoreLink}
-                </StyledLink>
-              </p>
-
-              <button onClick={nextQuestion}>Next Question</button>
-            </div>
-          ) : null}
+            <Fade>
+              <div style={{ height: HEIGHT }}>
+                <h2>{questionResult}</h2>
+                <p>{questionData.moreInfo}</p>
+                <p>
+                  Read more here:{" "}
+                  <StyledLink colored href={questionData.readMoreLink}>
+                    {questionData.readMoreLink}
+                  </StyledLink>
+                </p>
+                <StyledButton onClick={nextQuestion}>
+                  {t(last === true ? "test.result" : "test.nextQuestion")}
+                </StyledButton>
+              </div>
+            </Fade>
+          ) : (
+            <Grid sm={12} style={{ textAlign: "start" }}>
+              <h3>{questionData.title}</h3>
+              <StyledMarkdown>{questionData.text}</StyledMarkdown>
+              <AnswerOptions
+                questionData={questionData}
+                onSelectAnswer={onSelectAnswer}
+              />
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </SlideWrapper>
@@ -224,8 +236,8 @@ const Questions = ({ t, nextSlide, questions, score, increaseScore }) => {
     <>
       <AlignCenter>
         <Grid container direction="column">
-          <p style={{ margin: 0 }}>Score: {score}</p>
-          <p style={{ margin: 0 }}>
+          <p style={{ margin: "0 0 0 4px" }}>Score: {score}</p>
+          <p style={{ margin: "0 0 0 4px" }}>
             Question {questionIndex + 1}/{questions.length}
           </p>
         </Grid>
@@ -235,6 +247,8 @@ const Questions = ({ t, nextSlide, questions, score, increaseScore }) => {
         {questions.map((questionData, index) => (
           <div key={index}>
             <Question
+              t={t}
+              last={index + 1 === questions.length}
               questionData={questions[questionIndex]}
               nextQuestion={nextQuestion}
               handleIncrementScore={handleIncrementScore}
@@ -246,7 +260,30 @@ const Questions = ({ t, nextSlide, questions, score, increaseScore }) => {
   );
 };
 
-const Result = ({ score }) => {
+const Result = ({ score, maxScore, testFinished }) => {
+  const [rotation, setRotation] = useState(-120);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [animationDone, setAnimationDone] = useState(false);
+  const animationTime = 10;
+  const timeoutStep = 0.1;
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (testFinished === true && animationDone === false) {
+        setElapsedTime(elapsedTime + timeoutStep);
+
+        let target_rot = (score / maxScore) * 220;
+        let new_rot = target_rot * (elapsedTime / animationTime);
+        console.log(elapsedTime / animationTime);
+        setRotation(new_rot - 120);
+
+        if (elapsedTime > animationTime) {
+          setAnimationDone(true);
+        }
+      }
+    }, timeoutStep * 100);
+  }, [animationDone, elapsedTime, maxScore, score, testFinished]);
+
   return (
     <AlignCenter>
       <Grid style={{ textAlign: "center" }} container direction="column">
@@ -259,9 +296,19 @@ const Result = ({ score }) => {
           }}
         >
           <img style={{ position: "absolute" }} alt="" src={gauge_img} />
-          <img style={{ position: "absolute" }} alt="" src={pointer_img} />
+          <img
+            style={{
+              position: "absolute",
+              top: 30,
+              transform: "rotate(" + rotation + "deg)",
+            }}
+            alt=""
+            src={pointer_img}
+          />
         </div>
-        <p>Your score is: {score}</p>
+        <p>
+          Your score is {score} out of {maxScore}
+        </p>
       </Grid>
     </AlignCenter>
   );
@@ -271,6 +318,8 @@ const TestSlides = ({ t }) => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
+  const [maxScore, setMaxScore] = useState(0);
+  const [testFinished, setTestFinished] = useState(false);
   const [profileState, setState] = useState({
     [BANK_PROFILE]: false,
     [GAMING_PROFILE]: false,
@@ -283,27 +332,24 @@ const TestSlides = ({ t }) => {
   };
 
   const increaseScore = (inc) => {
-    setScore(Number(score) + Number((inc * inc * 12).toFixed(0)));
+    setScore(Number(score) + getPretendScore(inc));
   };
 
   const nextSlide = () => {
+    console.log(slideIndex);
     if (slideIndex === 0) {
-      let generated_questions = generate_questions(profileState);
+      let generated_questions = generateQuestions(profileState);
+      let maxScore = getMaxScore(generated_questions);
       setQuestions(generated_questions);
+      setMaxScore(maxScore);
+    } else if (slideIndex === 1) {
+      setTestFinished(true);
     }
     setSlideIndex(slideIndex + 1);
   };
 
   return (
-    <div style={{ background: "lightblue", height: HEIGHT }}>
-      <AlignCenter>
-        <Stepper
-          index={slideIndex}
-          steps={[t("steps.profile"), t("steps.questions"), t("steps.result")]}
-          style={{ background: "lightblue" }}
-        />
-      </AlignCenter>
-
+    <div style={{ height: HEIGHT }}>
       <SwipeableViews index={slideIndex}>
         <ProfileSelection
           t={t}
@@ -318,7 +364,7 @@ const TestSlides = ({ t }) => {
           score={score}
           increaseScore={increaseScore}
         />
-        <Result score={score} />
+        <Result score={score} maxScore={maxScore} testFinished={testFinished} />
       </SwipeableViews>
     </div>
   );
